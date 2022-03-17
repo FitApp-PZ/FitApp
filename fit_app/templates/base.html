@@ -60,18 +60,16 @@
         <hr class="sidebar-divider my-0" />
 
         <!-- Nav Item - Dashboard -->
-        <li class="nav-item active">
-          <a class="nav-link" href="{% url 'website:samples' %}">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Dashboard</span></a
-          >
-        </li>
+        {% url 'website:samples' as samples %}
+            <li class="nav-item{% if page_path == samples %} active{% endif %}">
+                <a class="nav-link" href="{% url 'website:samples' %}">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Panel główny</span></a>
+            </li>
 
         <!-- Divider -->
         <hr class="sidebar-divider" />
 
-        <!-- Heading -->
-        <div class="sidebar-heading">Interface</div>
 
         <!-- Nav Item - Pages Collapse Menu -->
         <li class="nav-item">
@@ -110,8 +108,8 @@
             aria-expanded="true"
             aria-controls="collapseUtilities"
           >
-            <i class="fas fa-fw fa-wrench"></i>
-            <span>Utilities</span>
+            <i class="fas fa-fw fa-dumbbell"></i>
+            <span>Pomiary ciała</span>
           </a>
           <div
             id="collapseUtilities"
@@ -120,40 +118,33 @@
             data-parent="#accordionSidebar"
           >
             <div class="bg-white py-2 collapse-inner rounded">
-              <h6 class="collapse-header">Custom Utilities:</h6>
-              <a class="collapse-item" href="utilities-color.html">Colors</a>
-              <a class="collapse-item" href="utilities-border.html">Borders</a>
-              <a class="collapse-item" href="utilities-animation.html"
-                >Animations</a
-              >
-              <a class="collapse-item" href="utilities-other.html">Other</a>
+              <a class="collapse-item" href="utilities-color.html">Dodaj pomiary</a>
+              <h6 class="collapse-header">Podsumowanie:</h6>
+              <a class="collapse-item" href="utilities-border.html">Wykres</a>
             </div>
           </div>
         </li>
 
-        <!-- Divider -->
-        <hr class="sidebar-divider" />
-
-        <!-- Heading -->
-        <div class="sidebar-heading">Addons</div>
+        
 
         <!-- Nav Item - Pages Collapse Menu -->
         {% url 'calculators:BMI_calculator' as BMI_calc %}
-        <li class="nav-item{% if page_path == BMI_calc %} active{% endif %}">
+        {% url 'calculators:BMR_calculator' as BMR_calc %}
+        <li class="nav-item{% if page_path == BMI_calc or page_path == BMR_calc %} active{% endif %}">
           <a
-            class="nav-link{% if page_path != BMI_calc %} collapsed{% endif %}"
+            class="nav-link{% if page_path != BMI_calc and page_path != BMR_calc %} collapsed{% endif %}"
             href="#"
             data-toggle="collapse"
             data-target="#collapsePages"
             aria-expanded="true"
             aria-controls="collapsePages"
           >
-            <i class="fas fa-fw fa-folder"></i>
+            <i class="fas fa-calculator"></i>
             <span>Kalkulatory</span>
           </a>
           <div
             id="collapsePages"
-            class="collapse{% if page_path == BMI_calc %} show{% endif %}"
+            class="collapse{% if page_path == BMI_calc or page_path == BMR_calc %} show{% endif %}"
             aria-labelledby="headingPages"
             data-parent="#accordionSidebar"
           >
@@ -163,26 +154,55 @@
                 href="{% url 'calculators:BMI_calculator' %}"
                 >Kalkulator BMI</a
               >
-              <a class="collapse-item" href="register.html"
+              <a 
+                class="collapse-item{% if page_path == BMR_calc %} active{% endif %}"
+                href="{% url 'calculators:BMR_calculator' %}"
                 >Kalkulator Kalorii (BMR)</a
               >
             </div>
           </div>
         </li>
 
+        <!-- Nav Item - Utilities Collapse Menu -->
+        <li class="nav-item">
+            <a
+              class="nav-link collapsed"
+              href="#"
+              data-toggle="collapse"
+              data-target="#collapseThree"
+              aria-expanded="true"
+              aria-controls="collapseThree"
+            >
+              <i class="fas fa-fw fa-water"></i>
+              <span>Nawodnienie</span>
+            </a>
+            <div
+              id="collapseThree"
+              class="collapse"
+              aria-labelledby="headingThree"
+              data-parent="#accordionSidebar"
+            >
+              <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="utilities-color.html">Dodaj nawodnienie</a>
+                <h6 class="collapse-header">Podsumowanie:</h6>
+                <a class="collapse-item" href="utilities-border.html">Wykres</a>
+              </div>
+            </div>
+          </li>
+
         <!-- Nav Item - Charts -->
         <li class="nav-item">
-          <a class="nav-link" href="charts.html">
-            <i class="fas fa-fw fa-chart-area"></i>
-            <span>Charts</span></a
-          >
-        </li>
+            <a class="nav-link" href="charts.html">
+              <i class="fas fa-fw fa-chart-area"></i>
+              <span>Wykresy</span></a
+            >
+          </li>
 
         <!-- Nav Item - Tables -->
         <li class="nav-item">
           <a class="nav-link" href="tables.html">
             <i class="fas fa-fw fa-table"></i>
-            <span>Tables</span></a
+            <span>Tabele</span></a
           >
         </li>
 
