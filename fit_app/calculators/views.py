@@ -39,3 +39,23 @@ def BMI_calculator(request):
         context['state'] = state
 
     return render(request, 'calculators/BMI_calculator.html', context)
+
+def BMR_calculator(request):
+    context = {}
+    if request.method == 'POST':
+        weight = float(request.POST.get('weight'))
+        height = float(request.POST.get('height'))
+        age = int(request.POST.get('age'))
+        gender = request.POST.get('gender')
+
+        
+        save = request.POST.get('save')
+        if gender == 'M':
+            bmr = (9.99*weight) + (6.25*height) - (4.92*age) + 5
+        else:
+            bmr = (9.99*weight) + (6.25*height) - (4.92*age) - 161
+
+        
+        context['bmr'] = int(bmr)
+
+    return render(request, 'calculators/BMR_calculator.html', context)
