@@ -33,6 +33,8 @@
       referrerpolicy="no-referrer"
     ></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js" integrity="sha512-QSkVNOCYLtj73J4hbmVoOV6KVZuMluZlioC+trLpewV8qMjsWqlIQvkn1KGX2StWvPMdWGBqim1xlC8krl1EKQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
     <!-- Custom styles for this template-->
     <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet" />
   </head>
@@ -50,9 +52,8 @@
           class="sidebar-brand d-flex align-items-center justify-content-center"
           href="{% url 'website:index' %}"
         >
-          <div class="sidebar-brand-icon rotate-n-15">
-            <i class="fas fa-laugh-wink"></i>
-          </div>
+        <img src="https://png.pngitem.com/pimgs/s/160-1601441_fit-mom-to-be-pregnancy-workout-plan-workout.png" class="img-responsive img-rounded"
+          style="max-height: 50px; max-width: 50px;">
           <div class="sidebar-brand-text mx-3">Fit App</div>
         </a>
 
@@ -163,8 +164,8 @@
           </div>
         </li>
 
-        <!-- Nav Item - Utilities Collapse Menu -->
-        <li class="nav-item">
+        <!-- Nav Item - Hydration Collapse Menu -->
+        <li class="nav-item{% if app_name == 'hydration' %} active{% endif %}">
             <a
               class="nav-link collapsed"
               href="#"
@@ -178,17 +179,53 @@
             </a>
             <div
               id="collapseThree"
-              class="collapse"
+              class="collapse{% if app_name == 'hydration' %} show{% endif %}"
               aria-labelledby="headingThree"
               data-parent="#accordionSidebar"
             >
               <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="utilities-color.html">Dodaj nawodnienie</a>
+                {% url 'hydration:water_create' as hydration_water_create %}
+                {% url 'hydration:water_list' as hydration_water_list %}
+                {% url 'hydration:water_chart' as hydration_water_chart %}
+                {% url 'hydration:water_history' as hydration_water_history %}
+                <a class="collapse-item{% if page_path == hydration_water_create %} active{% endif %}" href="{{ hydration_water_create }}">Dodaj nawodnienie</a>
                 <h6 class="collapse-header">Podsumowanie:</h6>
-                <a class="collapse-item" href="utilities-border.html">Wykres</a>
+                <a class="collapse-item{% if page_path == hydration_water_list %} active{% endif %}" href="{{ hydration_water_list }}">Lista</a>
+                <a class="collapse-item{% if page_path == hydration_water_chart %} active{% endif %}" href="{{ hydration_water_chart }}">Wykres</a>
+                <a class="collapse-item{% if page_path == hydration_water_history %} active{% endif %}" href="{{ hydration_water_history }}">Historia</a>
               </div>
             </div>
           </li>
+
+          <!-- Nav Item - Steps Collapse Menu -->
+        <li class="nav-item">
+          <a
+            class="nav-link collapsed"
+            href="#"
+            data-toggle="collapse"
+            data-target="#collapseFour"
+            aria-expanded="true"
+            aria-controls="collapseFour"
+          >
+            <i class="fas fa-fw fa-shoe-prints"></i>
+            <span>Kroki</span>
+          </a>
+          <div
+            id="collapseFour"
+            class="collapse"
+            aria-labelledby="headingFour"
+            data-parent="#accordionSidebar"
+          >
+            <div class="bg-white py-2 collapse-inner rounded">
+              {% url 'hydration:water_create' as hydration_water_create %}
+              {% url 'hydration:water_list' as hydration_water_list %}
+              <a class="collapse-item{% if page_path == hydration_water_create %} active{% endif %}" href="{{ hydration_water_create }}">Dodaj kroki</a>
+              <h6 class="collapse-header">Podsumowanie:</h6>
+              <a class="collapse-item" href="{{ hydration_water_list }}">Lista</a>
+              <a class="collapse-item" href="utilities-border.html">Wykres</a>
+            </div>
+          </div>
+        </li>
 
         <!-- Nav Item - Charts -->
         <li class="nav-item">
@@ -206,13 +243,7 @@
           >
         </li>
 
-        <!-- Divider -->
-        <hr class="sidebar-divider d-none d-md-block" />
-
-        <!-- Sidebar Toggler (Sidebar) -->
-        <div class="text-center d-none d-md-inline">
-          <button class="rounded-circle border-0" id="sidebarToggle"></button>
-        </div>
+        
       </ul>
       <!-- End of Sidebar -->
 
@@ -586,5 +617,8 @@
     <!-- Page level custom scripts -->
     <script src="{% static 'js/demo/chart-area-demo.js' %}"></script>
     <script src="{% static 'js/demo/chart-pie-demo.js' %}"></script>
+
+    {% block js %}
+    {% endblock %}
   </body>
 </html>
