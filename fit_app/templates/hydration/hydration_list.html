@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Upload File Section Form-->
+    <div class="row justify-content-center">
+      <div class="col-lg-8 col-xl-7">
+        <h1>Nawodnienie {{ today }}</h1>
+        <ul>
+          {% for object in object_list %}
+            <li>
+                <a href="{% url 'hydration:water_detail' object.pk %}">
+              
+                  {{ object.created_at_time | time:"H:i" }} - {{ object.get_value_display }}
+                  
+                </a>
+            </li>
+          {% empty %}
+            <li>Nothing to show yet</li>
+          {% endfor %}
+        </ul>
+        
+      </div>
+    </div>
+{% endblock %}
