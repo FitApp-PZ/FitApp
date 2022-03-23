@@ -20,7 +20,7 @@ class WaterListView(ListView):
     model = Water
     paginate_by = 100
     template_name = 'hydration/hydration_list.html'
-    ewater_datetra_contewater_datet = {'list_what': 'water', 'today': date.today().strftime("%d/%m/%Y")}
+    extra_context = {'list_what': 'water', 'today': date.today().strftime("%d/%m/%Y")}
 
     def get_queryset(self):
         user = self.request.user
@@ -31,7 +31,7 @@ class WaterListView(ListView):
 class WaterDetailView(DetailView):
     model = Water
     template_name = 'hydration/hydration_detail.html'
-    ewater_datetra_contewater_datet = {'detail_what': 'water'}
+    extra_context = {'detail_what': 'water'}
 
     def get_queryset(self):
         user = self.request.user
@@ -41,7 +41,7 @@ class WaterCreateView(CreateView):
     model = Water
     form_class = WaterForm
     template_name = 'hydration/hydration_form.html'
-    ewater_datetra_contewater_datet = {'header': 'Dodaj napój'}
+    extra_context = {'header': 'Dodaj napój'}
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
@@ -62,7 +62,7 @@ class WaterUpdateView(UpdateView):
     model = Water
     form_class = WaterForm
     template_name = 'hydration/hydration_form.html'
-    ewater_datetra_contewater_datet = {'header': 'Update water'}
+    extra_context = {'header': 'Update water'}
 
     def get_queryset(self):
         user = self.request.user
@@ -75,7 +75,7 @@ class WaterUpdateView(UpdateView):
 class WaterDeleteView(DeleteView):
     model = Water
     template_name = 'hydration/hydration_confirm_delete.html'
-    ewater_datetra_contewater_datet = {'delete_what': 'Water'}
+    extra_context = {'delete_what': 'Water'}
 
     def get_queryset(self):
         user = self.request.user

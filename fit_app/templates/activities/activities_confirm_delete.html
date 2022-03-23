@@ -1,14 +1,15 @@
 {% extends 'base.html' %}
-{% load crispy_forms_tags %}
 
 {% block content %}
 <!-- Upload File Section Form-->
     <div class="row justify-content-center">
       <div class="col-lg-8 col-xl-7">
-        <h1>Dodaj napój</h1>
+        <h1>Aktywność</h1>
+        
         <form method="post">{% csrf_token %}
-            {{ form|crispy }}
-            <input type="submit" value="Dodaj">
+          <p>Na pewno usunąć {{ object.get_type_display }} - {{ object.date|date:"d/m/y" }}?</p>
+          {{ form }}
+          <input type="submit" value="Potwierdź">
         </form>
         
       </div>
