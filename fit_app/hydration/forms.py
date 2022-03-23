@@ -14,5 +14,3 @@ class WaterForm(forms.ModelForm):
         
     value = forms.ChoiceField(choices=Water.WTypes.choices, initial=2, label="Wartość")
     date = forms.DateField(widget=DateInput(attrs={'readonly': 'readonly'}), initial=date.today(), label="Data")
-
-    

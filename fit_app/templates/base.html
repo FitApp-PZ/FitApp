@@ -64,7 +64,7 @@
         {% url 'website:samples' as samples %}
             <li class="nav-item{% if page_path == samples %} active{% endif %}">
                 <a class="nav-link" href="{% url 'website:samples' %}">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-fw fa-heart"></i>
                     <span>Panel główny</span></a>
             </li>
 
@@ -197,8 +197,8 @@
             </div>
           </li>
 
-          <!-- Nav Item - Steps Collapse Menu -->
-        <li class="nav-item">
+          <!-- Nav Item - Activities Collapse Menu -->
+        <li class="nav-item{% if app_name == 'activities' %} active{% endif %}">
           <a
             class="nav-link collapsed"
             href="#"
@@ -208,21 +208,24 @@
             aria-controls="collapseFour"
           >
             <i class="fas fa-fw fa-shoe-prints"></i>
-            <span>Kroki</span>
+            <span>Aktywność</span>
           </a>
           <div
             id="collapseFour"
-            class="collapse"
+            class="collapse{% if app_name == 'activities' %} show{% endif %}"
             aria-labelledby="headingFour"
             data-parent="#accordionSidebar"
           >
             <div class="bg-white py-2 collapse-inner rounded">
-              {% url 'hydration:water_create' as hydration_water_create %}
-              {% url 'hydration:water_list' as hydration_water_list %}
-              <a class="collapse-item{% if page_path == hydration_water_create %} active{% endif %}" href="{{ hydration_water_create }}">Dodaj kroki</a>
+              {% url 'activities:activities_create' as activities_create %}
+              {% url 'activities:activities_list' as activities_list %}
+              {% url 'activities:activities_chart' as activities_chart %}
+              {% url 'activities:all_activities_list' as all_activities_list %}
+              <a class="collapse-item{% if page_path == activities_create %} active{% endif %}" href="{{ activities_create }}">Dodaj aktywność</a>
               <h6 class="collapse-header">Podsumowanie:</h6>
-              <a class="collapse-item" href="{{ hydration_water_list }}">Lista</a>
-              <a class="collapse-item" href="utilities-border.html">Wykres</a>
+              <a class="collapse-item{% if page_path == activities_list %} active{% endif %}" href="{{ activities_list }}">Lista</a>
+              <a class="collapse-item{% if page_path == activities_chart %} active{% endif %}" href="{{ activities_chart }}">Wykres</a>
+              <a class="collapse-item{% if page_path == all_activities_list %} active{% endif %}" href="{{ all_activities_list }}">Historia</a>
             </div>
           </div>
         </li>
