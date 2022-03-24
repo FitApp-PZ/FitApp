@@ -109,7 +109,7 @@
             aria-expanded="true"
             aria-controls="collapseUtilities"
           >
-            <i class="fas fa-fw fa-dumbbell"></i>
+            <i class="fas fa-fw fa-weight"></i>
             <span>Pomiary ciała</span>
           </a>
           <div
@@ -174,7 +174,7 @@
               aria-expanded="true"
               aria-controls="collapseThree"
             >
-              <i class="fas fa-fw fa-water"></i>
+              <i class="fas fa-fw fa-hand-holding-water"></i>
               <span>Nawodnienie</span>
             </a>
             <div
@@ -197,7 +197,7 @@
             </div>
           </li>
 
-          <!-- Nav Item - Activities Collapse Menu -->
+        <!-- Nav Item - Activities Collapse Menu -->
         <li class="nav-item{% if app_name == 'activities' %} active{% endif %}">
           <a
             class="nav-link collapsed"
@@ -207,7 +207,7 @@
             aria-expanded="true"
             aria-controls="collapseFour"
           >
-            <i class="fas fa-fw fa-shoe-prints"></i>
+            <i class="fas fa-fw fa-dumbbell"></i>
             <span>Aktywność</span>
           </a>
           <div
@@ -226,6 +226,38 @@
               <a class="collapse-item{% if page_path == activities_list %} active{% endif %}" href="{{ activities_list }}">Lista</a>
               <a class="collapse-item{% if page_path == activities_chart %} active{% endif %}" href="{{ activities_chart }}">Wykres</a>
               <a class="collapse-item{% if page_path == all_activities_list %} active{% endif %}" href="{{ all_activities_list }}">Historia</a>
+            </div>
+          </div>
+        </li>
+
+        <!-- Nav Item - Sleep Collapse Menu -->
+        <li class="nav-item{% if app_name == 'activities' %} active{% endif %}">
+          <a
+            class="nav-link collapsed"
+            href="#"
+            data-toggle="collapse"
+            data-target="#collapseFour"
+            aria-expanded="true"
+            aria-controls="collapseFour"
+          >
+            <i class="fas fa-fw fa-bed"></i>
+            <span>Sen</span>
+          </a>
+          <div
+            id="collapseFour"
+            class="collapse{% if app_name == 'activities' %} show{% endif %}"
+            aria-labelledby="headingFour"
+            data-parent="#accordionSidebar"
+          >
+            <div class="bg-white py-2 collapse-inner rounded">
+              {% url 'activities:activities_create' as activities_create %}
+              {% url 'activities:activities_list' as activities_list %}
+              {% url 'activities:activities_chart' as activities_chart %}
+              {% url 'activities:all_activities_list' as all_activities_list %}
+              <a class="collapse-item{% if page_path == activities_create %} active{% endif %}" href="{{ activities_create }}">Dodaj sen</a>
+              <h6 class="collapse-header">Podsumowanie:</h6>
+              <a class="collapse-item{% if page_path == activities_list %} active{% endif %}" href="{{ activities_list }}">Lista</a>
+              <a class="collapse-item{% if page_path == activities_chart %} active{% endif %}" href="{{ activities_chart }}">Wykres</a>
             </div>
           </div>
         </li>
