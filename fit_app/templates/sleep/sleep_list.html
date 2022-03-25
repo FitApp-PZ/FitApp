@@ -2,8 +2,8 @@
 
 {% block content %}
 <!-- Upload File Section Form-->
-    <div class="row justify-content-center">
-      <div class="col-lg-8 col-xl-7">
+    <div class=" row justify-content-center">
+      <div class="col-lg-8 col-xl-10">
         {% if messages %}
           <ul class="messages">
           {% for message in messages %}
@@ -11,16 +11,12 @@
           {% endfor %}
           </ul>
         {% endif %}
-        <h1>Nawodnienie {{ today }}</h1>
-        <ul>
+        <h1 class="font-weight-bold mb-3">Sen</h1>
+        <ul class="p-0">
           {% for object in object_list %}
-            <li>
-                <a href="{% url 'hydration:water_detail' object.pk %}">
-              
-                  {{ object.created_at_time | time:"H:i" }} - {{ object.get_value_display }}
-                  
-                </a>
-            </li>
+            <a href="{% url 'sleep:sleep_detail' object.pk %}">
+            <h3>{{ object.date | date:"d/m/y" }} - <span class="text-secondary">{{ object.duration_time|floatformat }} godzin snu</span></h3>
+            </a>
           {% empty %}
             <li>Nie dodano jeszcze dzisiaj żadnego napoju.</li>
           {% endfor %}

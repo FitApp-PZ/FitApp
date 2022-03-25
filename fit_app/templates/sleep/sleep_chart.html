@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<h1 class="mb-5" style="text-align: center;">Wykres ilości snu z ostatnich 14 dni ({{ first_date_of_14_days | date:"d/m" }} - {{ last_date_of_14_days | date:"d/m" }})</h1>
+<!-- Visuals -->
+<div class="row">
+  <div id="visuals-container" class="col-lg-8 mx-auto">
+    <canvas class="mb-3" width="300" height="200" id="myChart"></canvas>
+    <div id="chart2"></div>
+  </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<!-- Page level plugins -->
+<script src="{% static 'vendor/chart.js/Chart.min.js' %}"></script>
+
+<script>
+$(document).ready(function() {
+
+
+    let myChart = document.getElementById('myChart').getContext('2d');
+
+    let massPopChart = new Chart(myChart, {
+        type: 'line',
+        data:{
+            labels: [{% for item in date_list_view_last_14_days %}'{{ item | date:"d/m/y" }}',{% endfor %}],
+            datasets:[
+              {
+                label: 'Cel',
+                data:[{% for item in all_sleep %} 8,{% endfor %}],
+                // backgroundColor: 'rgba(54, 185, 204, 0.5)'
+                fill: false
+              },
+              {
+                label: 'Ilość godzin snu',
+                data:[{% for item in all_sleep %}{{item.duration_time}},{% endfor %}],
+                backgroundColor: 'rgba(54, 185, 204, 0.5)'
+              }
+            ]
+        },
+        options: {
+          scales: {
+            xAxes: [{
+              display: true
+            }],
+            yAxes: [{
+              display: true,
+              ticks: {
+                suggestedMin: 1,
+                suggestedMax: 12,
+                stepSize: 1
+              }
+            }]
+          }
+        }
+    })
+})
+</script>
+{% endblock %}
