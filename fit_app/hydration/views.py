@@ -109,14 +109,24 @@ def WaterHistoryView(request):
 
     date_list = [water_date['date'] for water_date in Water.objects.values('date').distinct()]
 
+    date_list_view = []
     sum_value_at_date = []
     for water_date in date_list:
         wate_tot = Water.objects.aggregate(s=Sum('real_value', filter=Q(date=water_date)))['s']
+        date_list_view.append(water_date)
         sum_value_at_date.append(wate_tot)
 
+    N = 14
+    date_list_view_last_14_days = date_list_view[-N:]
+    first_date_of_14_days = date_list_view_last_14_days[0]
+    last_date_of_14_days = date_list_view_last_14_days[-1]
 
     context = {
         'all_water': all_water,
+        'date_list_view': date_list_view,
+        'date_list_view_last_14_days': date_list_view_last_14_days,
+        'first_date_of_14_days': first_date_of_14_days,
+        'last_date_of_14_days': last_date_of_14_days,
         'date': date_list,
         'data': sum_value_at_date
     }

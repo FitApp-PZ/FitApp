@@ -72,33 +72,6 @@
         <hr class="sidebar-divider" />
 
 
-        <!-- Nav Item - Pages Collapse Menu -->
-        <li class="nav-item">
-          <a
-            class="nav-link collapsed"
-            href="#"
-            data-toggle="collapse"
-            data-target="#collapseTwo"
-            aria-expanded="true"
-            aria-controls="collapseTwo"
-          >
-            <i class="fas fa-fw fa-cog"></i>
-            <span>Components</span>
-          </a>
-          <div
-            id="collapseTwo"
-            class="collapse"
-            aria-labelledby="headingTwo"
-            data-parent="#accordionSidebar"
-          >
-            <div class="bg-white py-2 collapse-inner rounded">
-              <h6 class="collapse-header">Custom Components:</h6>
-              <a class="collapse-item" href="buttons.html">Buttons</a>
-              <a class="collapse-item" href="cards.html">Cards</a>
-            </div>
-          </div>
-        </li>
-
         <!-- Nav Item - Utilities Collapse Menu -->
         <li class="nav-item">
           <a
@@ -120,8 +93,11 @@
           >
             <div class="bg-white py-2 collapse-inner rounded">
               <a class="collapse-item" href="utilities-color.html">Dodaj pomiary</a>
+              <a class="collapse-item" href="utilities-color.html">Ustaw cel</a>
               <h6 class="collapse-header">Podsumowanie:</h6>
+              <a class="collapse-item" href="utilities-border.html">Lista</a>
               <a class="collapse-item" href="utilities-border.html">Wykres</a>
+              <a class="collapse-item" href="utilities-border.html">Statystyki</a>
             </div>
           </div>
         </li>
@@ -231,33 +207,33 @@
         </li>
 
         <!-- Nav Item - Sleep Collapse Menu -->
-        <li class="nav-item{% if app_name == 'activities' %} active{% endif %}">
+        <li class="nav-item{% if app_name == 'sleep' %} active{% endif %}">
           <a
             class="nav-link collapsed"
             href="#"
             data-toggle="collapse"
-            data-target="#collapseFour"
+            data-target="#collapseFive"
             aria-expanded="true"
-            aria-controls="collapseFour"
+            aria-controls="collapseFive"
           >
             <i class="fas fa-fw fa-bed"></i>
             <span>Sen</span>
           </a>
           <div
-            id="collapseFour"
-            class="collapse{% if app_name == 'activities' %} show{% endif %}"
-            aria-labelledby="headingFour"
+            id="collapseFive"
+            class="collapse{% if app_name == 'sleep' %} show{% endif %}"
+            aria-labelledby="headingFive"
             data-parent="#accordionSidebar"
           >
             <div class="bg-white py-2 collapse-inner rounded">
-              {% url 'activities:activities_create' as activities_create %}
-              {% url 'activities:activities_list' as activities_list %}
-              {% url 'activities:activities_chart' as activities_chart %}
-              {% url 'activities:all_activities_list' as all_activities_list %}
-              <a class="collapse-item{% if page_path == activities_create %} active{% endif %}" href="{{ activities_create }}">Dodaj sen</a>
+              {% url 'sleep:sleep_create' as sleep_create %}
+              {% url 'sleep:sleep_list' as sleep_list %}
+              {% url 'sleep:sleep_chart' as sleep_chart %}
+              {% url 'sleep:all_sleep_list' as all_sleep_list %}
+              <a class="collapse-item{% if page_path == sleep_create %} active{% endif %}" href="{{ sleep_create }}">Dodaj sen</a>
               <h6 class="collapse-header">Podsumowanie:</h6>
-              <a class="collapse-item{% if page_path == activities_list %} active{% endif %}" href="{{ activities_list }}">Lista</a>
-              <a class="collapse-item{% if page_path == activities_chart %} active{% endif %}" href="{{ activities_chart }}">Wykres</a>
+              <a class="collapse-item{% if page_path == sleep_list %} active{% endif %}" href="{{ sleep_list }}">Lista</a>
+              <a class="collapse-item{% if page_path == sleep_chart %} active{% endif %}" href="{{ sleep_chart }}">Wykres</a>
             </div>
           </div>
         </li>
@@ -284,25 +260,6 @@
               <i class="fa fa-bars"></i>
             </button>
 
-            <!-- Topbar Search -->
-            <form
-              class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search"
-            >
-              <div class="input-group">
-                <input
-                  type="text"
-                  class="form-control bg-light border-0 small"
-                  placeholder="Search for..."
-                  aria-label="Search"
-                  aria-describedby="basic-addon2"
-                />
-                <div class="input-group-append">
-                  <button class="btn btn-primary" type="button">
-                    <i class="fas fa-search fa-sm"></i>
-                  </button>
-                </div>
-              </div>
-            </form>
 
             <!-- Topbar Navbar -->
             <ul class="navbar-nav ml-auto">
@@ -404,106 +361,6 @@
                     class="dropdown-item text-center small text-gray-500"
                     href="#"
                     >Show All Alerts</a
-                  >
-                </div>
-              </li>
-
-              <!-- Nav Item - Messages -->
-              <li class="nav-item dropdown no-arrow mx-1">
-                <a
-                  class="nav-link dropdown-toggle"
-                  href="#"
-                  id="messagesDropdown"
-                  role="button"
-                  data-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                >
-                  <i class="fas fa-envelope fa-fw"></i>
-                  <!-- Counter - Messages -->
-                  <span class="badge badge-danger badge-counter">7</span>
-                </a>
-                <!-- Dropdown - Messages -->
-                <div
-                  class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                  aria-labelledby="messagesDropdown"
-                >
-                  <h6 class="dropdown-header">Message Center</h6>
-                  <a class="dropdown-item d-flex align-items-center" href="#">
-                    <div class="dropdown-list-image mr-3">
-                      <img
-                        class="rounded-circle"
-                        src="{% static 'img/undraw_profile_1.svg' %}"
-                        alt="..."
-                      />
-                      <div class="status-indicator bg-success"></div>
-                    </div>
-                    <div class="font-weight-bold">
-                      <div class="text-truncate">
-                        Hi there! I am wondering if you can help me with a
-                        problem I've been having.
-                      </div>
-                      <div class="small text-gray-500">Emily Fowler · 58m</div>
-                    </div>
-                  </a>
-                  <a class="dropdown-item d-flex align-items-center" href="#">
-                    <div class="dropdown-list-image mr-3">
-                      <img
-                        class="rounded-circle"
-                        src="{% static 'img/undraw_profile_2.svg' %}"
-                        alt="..."
-                      />
-                      <div class="status-indicator"></div>
-                    </div>
-                    <div>
-                      <div class="text-truncate">
-                        I have the photos that you ordered last month, how would
-                        you like them sent to you?
-                      </div>
-                      <div class="small text-gray-500">Jae Chun · 1d</div>
-                    </div>
-                  </a>
-                  <a class="dropdown-item d-flex align-items-center" href="#">
-                    <div class="dropdown-list-image mr-3">
-                      <img
-                        class="rounded-circle"
-                        src="{% static 'img/undraw_profile_3.svg' %}"
-                        alt="..."
-                      />
-                      <div class="status-indicator bg-warning"></div>
-                    </div>
-                    <div>
-                      <div class="text-truncate">
-                        Last month's report looks great, I am very happy with
-                        the progress so far, keep up the good work!
-                      </div>
-                      <div class="small text-gray-500">Morgan Alvarez · 2d</div>
-                    </div>
-                  </a>
-                  <a class="dropdown-item d-flex align-items-center" href="#">
-                    <div class="dropdown-list-image mr-3">
-                      <img
-                        class="rounded-circle"
-                        src="https://source.unsplash.com/Mv9hjnEUHR4/60x60"
-                        alt="..."
-                      />
-                      <div class="status-indicator bg-success"></div>
-                    </div>
-                    <div>
-                      <div class="text-truncate">
-                        Am I a good boy? The reason I ask is because someone
-                        told me that people say this to all dogs, even if they
-                        aren't good...
-                      </div>
-                      <div class="small text-gray-500">
-                        Chicken the Dog · 2w
-                      </div>
-                    </div>
-                  </a>
-                  <a
-                    class="dropdown-item text-center small text-gray-500"
-                    href="#"
-                    >Read More Messages</a
                   >
                 </div>
               </li>

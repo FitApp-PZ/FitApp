@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-<h1 class="mb-5" style="text-align: center;">Wykres Aktywności Fizycznej w ostatnich dniach</h1>
+<h1 class="mb-5" style="text-align: center;">Wykres Aktywności Fizycznej z ostatnich 14 dni ({{ first_date_of_14_days | date:"d/m" }} - {{ last_date_of_14_days | date:"d/m" }})</h1>
 <!-- Visuals -->
 <div class="row">
   <div id="visuals-container" class="col-lg-8 mx-auto">
@@ -83,7 +83,7 @@ $(document).ready(function() {
     let massPopChart = new Chart(myChart, {
         type: 'bar',
         data:{
-            labels: [{% for item in all_activities %}'{{ item.date | date:"d/m/y" }}',{% endfor %}],
+            labels: [{% for item in date_list_view_last_14_days %}'{{ item | date:"d/m/y" }}',{% endfor %}],
             datasets:[{
                 label: 'Aktywność fizyczna w minutach',
                 data:[{% for item in data %}{{item}},{% endfor %}],

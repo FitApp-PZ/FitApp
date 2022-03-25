@@ -84,22 +84,11 @@ def ActivityChartView(request):
 
     all_activities = Activity.objects.filter(user=request.user).order_by('date')
 
-    sum_BIE_activities_today = []
-    sum_ROW_activities_today = []
-    sum_TRE_activities_today = []
-    sum_PIL_activities_today = []
-    sum_KOS_activities_today = []
-    sum_BAD_activities_today = []
-    sum_SKA_activities_today = []
-    sum_JOG_activities_today = []
-    sum_TEN_activities_today = []
-    sum_BOK_activities_today = []
-
     type_list = [activity_type['type'] for activity_type in Activity.objects.values('type')]
 
     print(type_list)
 
-    date_list = [activity_date['date'] for activity_date in Activity.objects.values('date').distinct()]
+    date_list = [activity_date['date'] for activity_date in Activity.objects.order_by('date').values('date').distinct()]
 
     sum_value_at_date = []
     activity_label = []
@@ -109,44 +98,22 @@ def ActivityChartView(request):
 
     for activity_date in date_list:
         activities_tot = Activity.objects.aggregate(s=Sum('duration_time', filter=Q(date=activity_date)))['s']
-        # BIE_activities_today = Activity.objects.aggregate(s=Sum('duration_time', filter=Q(date=activity_date, type=1)))['s']
-        # ROW_activities_today = Activity.objects.aggregate(s=Sum('duration_time', filter=Q(date=activity_date, type=2)))['s']
-        # TRE_activities_today = Activity.objects.aggregate(s=Sum('duration_time', filter=Q(date=activity_date, type=3)))['s']
-        # PIL_activities_today = Activity.objects.aggregate(s=Sum('duration_time', filter=Q(date=activity_date, type=4)))['s']
-        # KOS_activities_today = Activity.objects.aggregate(s=Sum('duration_time', filter=Q(date=activity_date, type=5)))['s']
-        # BAD_activities_today = Activity.objects.aggregate(s=Sum('duration_time', filter=Q(date=activity_date, type=6)))['s']
-        # SKA_activities_today = Activity.objects.aggregate(s=Sum('duration_time', filter=Q(date=activity_date, type=7)))['s']
-        # JOG_activities_today = Activity.objects.aggregate(s=Sum('duration_time', filter=Q(date=activity_date, type=8)))['s']
-        # TEN_activities_today = Activity.objects.aggregate(s=Sum('duration_time', filter=Q(date=activity_date, type=9)))['s']
-        # BOK_activities_today = Activity.objects.aggregate(s=Sum('duration_time', filter=Q(date=activity_date, type=10)))['s']
-        # sum_BIE_activities_today.append(BIE_activities_today)
-        # sum_ROW_activities_today.append(ROW_activities_today)
-        # sum_TRE_activities_today.append(TRE_activities_today)
-        # sum_PIL_activities_today.append(PIL_activities_today)
-        # sum_KOS_activities_today.append(KOS_activities_today)
-        # sum_BAD_activities_today.append(BAD_activities_today)
-        # sum_SKA_activities_today.append(SKA_activities_today)
-        # sum_JOG_activities_today.append(JOG_activities_today)
-        # sum_TEN_activities_today.append(TEN_activities_today)
-        # sum_BOK_activities_today.append(BOK_activities_today)
         sum_value_at_date.append(activities_tot)
+
+    N = 14
+    date_list_view_last_14_days = date_list[-N:]
+    first_date_of_14_days = date_list_view_last_14_days[0]
+    last_date_of_14_days = date_list_view_last_14_days[-1]
 
     context = {
         'all_activities_today': all_activities_today,
         'all_activities': all_activities,
+        'date_list_view_last_14_days': date_list_view_last_14_days,
+        'first_date_of_14_days': first_date_of_14_days,
+        'last_date_of_14_days': last_date_of_14_days,
         'date': date_list,
         'activity_label': activity_label,
-        'data': sum_value_at_date,
-        'sum_BIE_activities_today': sum_BIE_activities_today,
-        'sum_ROW_activities_today': sum_ROW_activities_today,
-        'sum_TRE_activities_today': sum_TRE_activities_today,
-        'sum_PIL_activities_today': sum_PIL_activities_today,
-        'sum_KOS_activities_today': sum_KOS_activities_today,
-        'sum_BAD_activities_today': sum_BAD_activities_today,
-        'sum_SKA_activities_today': sum_SKA_activities_today,
-        'sum_JOG_activities_today': sum_JOG_activities_today,
-        'sum_TEN_activities_today': sum_TEN_activities_today,
-        'sum_BOK_activities_today': sum_BOK_activities_today,
+        'data': sum_value_at_date
     }
 
     return render(request, 'activities/activities_chart.html', context=context)
