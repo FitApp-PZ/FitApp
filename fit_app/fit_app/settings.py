@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'crispy_forms',
     'activities',
+    'accounts',
     'calculators',
     'sleep',
     'website',
