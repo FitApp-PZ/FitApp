@@ -9,6 +9,12 @@
     <canvas class="mb-3" width="300" height="200" id="myChart"></canvas>
     <div id="chart2"></div>
   </div>
+  <div class="col-3">
+    <div class=" border border-primary rounded p-3">
+      <p class="font-weight-bold text-center text-capitalize" >PORADA</p>
+      <p>Musisz więcej spać, średnia powinna wynosić między 7 - 9 godzin snu dziennie!</p>
+      <p>Twoja średnia: </p>
+    </div>
 </div>
 {% endblock %}
 
@@ -80,15 +86,32 @@ $(document).ready(function() {
     //     }
     // })
 
+    let scales = {
+        xAxes : [{
+          stacked: true,
+        }],
+        yAxes: [{
+          stacked: true,
+          ticks: {
+            suggestedMin: 0,
+            suggestedMax: 240,
+            stepSize: 20
+          }
+        }]
+      };
+
     let massPopChart = new Chart(myChart, {
         type: 'bar',
         data:{
-            labels: [{% for item in date_list_view_last_14_days %}'{{ item | date:"d/m/y" }}',{% endfor %}],
+            labels: [{% for item in date_last14 %}'{{ item | date:"d/m/y" }}',{% endfor %}],
             datasets:[{
                 label: 'Aktywność fizyczna w minutach',
                 data:[{% for item in data %}{{item}},{% endfor %}],
                 backgroundColor: 'rgba(247, 62, 111, 0.5)'
             }]
+        },
+        options: {
+          scales: scales
         }
     })
 })

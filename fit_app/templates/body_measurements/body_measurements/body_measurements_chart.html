@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<h1 class="mb-5" style="text-align: center;">Wykres Aktywności Fizycznej z ostatnich 14 dni ({{ first_date_of_14_days | date:"d/m" }} - {{ last_date_of_14_days | date:"d/m" }})</h1>
+<!-- Visuals -->
+<div class="row">
+  <div id="visuals-container" class="col-lg-8 mx-auto">
+    <div class="row">
+      <div class="col-12 col-md-6">
+        <select class="form-control" id="chart2-summary-type">
+          <option value="mon1">1 miesiąc</option>
+          <option value="mon3">3 miesiące</option>
+          <option value="mon6">6 miesięcy</option>
+          <option value="year1">1 rok</option>
+        </select>
+      </div>
+      
+    </div>
+  </div>
+  <div id="visuals-container" class="col-lg-10 mx-auto">
+    <canvas class="mb-3" width="800" height="400" id="myChart"></canvas>
+  </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<!-- Page level plugins -->
+<script src="{% static 'vendor/chart.js/Chart.min.js' %}"></script>
+
+<script>
+$(document).ready(function() {
+
+  let loadChart = function(summary_type) {
+    $.get(`/body_measurements/body_measurements_get_chart?summary_type=${summary_type}`, function (res) {
+      console.log(res.data)
+        let canvas = document.getElementById('myChart');
+        const config = {
+            type: 'line',
+            data: {
+                labels: res.label,
+                datasets: [
+                    // {
+                    //     // type: 'scatter',
+                    //     label: 'Cel',
+                    //     data: res.data_balance_check,
+                    //     borderWidth: 2,
+                    //     backgroundColor: 'rgba(28, 200, 138, 0.1)',
+                    //     borderColor: 'rgba(28, 200, 138, 1)',
+                    // },
+                    {
+                        label: 'Waga',
+                        data: res.data,
+                        fill: false,
+                        showLine: true,
+                        pointRadius: 3,
+                        pointHoverRadius: 3,
+                        backgroundColor: "rgb(78, 115, 223)",
+                        borderColor: "rgb(78, 115, 223)"
+                    },
+                ]
+            },
+            options: {
+            scales: {
+              xAxes: [{
+                display: true
+              }],
+              yAxes: [{
+                display: true,
+                ticks: {
+                  suggestedMin: 1,
+                  suggestedMax: 12,
+                  stepSize: 1
+                }
+              }]
+              },
+              plugins : {
+            datalebels : {
+              display: function(context) {
+                  return context.dataset.data[context.dataIndex] > 1;
+
+            }
+          }
+          }
+          },
+          
+        };
+        new Chart(canvas, config);
+    });
+  }
+
+  
+
+  loadChart('mon1')
+  $('#chart2-summary-type').on('change', function() {
+      let summary_type = $('#chart2-summary-type').val()
+      loadChart(summary_type)
+    })
+  
+  })
+
+//   let myChart = document.getElementById('myChart').getContext('2d');
+
+// let massPopChart = new Chart(myChart, {
+//     type: 'line',
+//     data:{
+//         labels: [{% for item in label %}'{{ item | date:"d/m/y" }}',{% endfor %}],
+//         datasets:[
+//           {
+//             label: 'Cel',
+//             data:[{% for item in label %} 8,{% endfor %}],
+//             // backgroundColor: 'rgba(54, 185, 204, 0.5)'
+//             fill: false
+//           },
+//           {
+//             label: 'Ilość godzin snu',
+//             data:[{% for item in data %}{{item}},{% endfor %}],
+//             backgroundColor: 'rgba(54, 185, 204, 0.5)'
+//           }
+//         ]
+//     },
+//     options: {
+//       scales: {
+//         xAxes: [{
+//           display: true
+//         }],
+//         yAxes: [{
+//           display: true,
+//           ticks: {
+//             suggestedMin: 20,
+//             suggestedMax: 100,
+//             stepSize: 1
+//           }
+//         }]
+//       }
+//     }
+// })
+// })
+
+</script>
+{% endblock %}

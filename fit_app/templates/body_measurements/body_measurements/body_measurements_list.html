@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Upload File Section Form-->
+    <div class="row justify-content-center">
+      <div class="col-lg-8 col-xl-7">
+        {% if messages %}
+          <ul class="messages">
+          {% for message in messages %}
+            <p class=" ml-0 font-weight-bold {% if message.tags == 'error' %}text-danger {% elif message.tags == 'success' %}text-success {% endif %}">{{ message }} </p>
+          {% endfor %}
+          </ul>
+        {% endif %}
+        <h1>Pomiary ciała</h1>
+        <ul>
+          {% for object in object_list %}
+            <li>
+                <a href="{% url 'body_measurements:body_measurements_detail' object.pk %}">
+                  Waga: {{ object.weight  }} kg, Wzrost: {{ object.height }} cm - {{ object.date|date:"d/m/y" }}
+                </a>
+            </li>
+          {% empty %}
+            <li>Nie dodano jeszcze żadnych pomiarów ciała.</li>
+          {% endfor %}
+        </ul>
+        
+      </div>
+    </div>
+{% endblock %}

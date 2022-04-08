@@ -43,6 +43,7 @@
     <!-- Page Wrapper -->
     <div id="wrapper">
       <!-- Sidebar -->
+      {% if user %}
       <ul
         class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
         id="accordionSidebar"
@@ -237,11 +238,61 @@
             </div>
           </div>
         </li>
-
-        
-
         
       </ul>
+      {% else %}
+      <ul
+        class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
+        id="accordionSidebar"
+      >
+        <!-- Sidebar - Brand -->
+        <a
+          class="sidebar-brand d-flex align-items-center justify-content-center"
+          href="{% url 'website:index' %}"
+        >
+        <img src="https://png.pngitem.com/pimgs/s/160-1601441_fit-mom-to-be-pregnancy-workout-plan-workout.png" class="img-responsive img-rounded"
+          style="max-height: 50px; max-width: 50px;">
+          <div class="sidebar-brand-text mx-3">Fit App</div>
+        </a>
+
+        <!-- Nav Item - Pages Collapse Menu -->
+        {% url 'calculators:BMI_calculator' as BMI_calc %}
+        {% url 'calculators:BMR_calculator' as BMR_calc %}
+        <li class="nav-item{% if page_path == BMI_calc or page_path == BMR_calc %} active{% endif %}">
+          <a
+            class="nav-link{% if page_path != BMI_calc and page_path != BMR_calc %} collapsed{% endif %}"
+            href="#"
+            data-toggle="collapse"
+            data-target="#collapsePages"
+            aria-expanded="true"
+            aria-controls="collapsePages"
+          >
+            <i class="fas fa-calculator"></i>
+            <span>Kalkulatory</span>
+          </a>
+          <div
+            id="collapsePages"
+            class="collapse{% if page_path == BMI_calc or page_path == BMR_calc %} show{% endif %}"
+            aria-labelledby="headingPages"
+            data-parent="#accordionSidebar"
+          >
+            <div class="bg-white py-2 collapse-inner rounded">
+              <a
+                class="collapse-item{% if page_path == BMI_calc %} active{% endif %}"
+                href="{% url 'calculators:BMI_calculator' %}"
+                >Kalkulator BMI</a
+              >
+              <a 
+                class="collapse-item{% if page_path == BMR_calc %} active{% endif %}"
+                href="{% url 'calculators:BMR_calculator' %}"
+                >Kalkulator Kalorii (BMR)</a
+              >
+            </div>
+          </div>
+        </li>
+        
+      </ul>
+      {% endif %}
       <!-- End of Sidebar -->
 
       <!-- Content Wrapper -->
@@ -369,6 +420,7 @@
 
               <!-- Nav Item - User Information -->
               <li class="nav-item dropdown no-arrow">
+                {% if user %}
                 <a
                   class="nav-link dropdown-toggle"
                   href="#"
@@ -379,12 +431,9 @@
                   aria-expanded="false"
                 >
                   <span class="mr-2 d-none d-lg-inline text-gray-600 small"
-                    >Douglas McGee</span
+                    >{{ user.first_name }} {{ user.last_name }}</span
                   >
-                  <img
-                    class="img-profile rounded-circle"
-                    src="{% static 'img/undraw_profile.svg' %}"
-                  />
+                  <i class="fa fa-user"></i>
                 </a>
                 <!-- Dropdown - User Information -->
                 <div
@@ -393,15 +442,7 @@
                 >
                   <a class="dropdown-item" href="#">
                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Profile
-                  </a>
-                  <a class="dropdown-item" href="#">
-                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Settings
-                  </a>
-                  <a class="dropdown-item" href="#">
-                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Activity Log
+                    Profil
                   </a>
                   <div class="dropdown-divider"></div>
                   <a
@@ -413,9 +454,38 @@
                     <i
                       class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"
                     ></i>
-                    Logout
+                    Wyloguj się
                   </a>
                 </div>
+                {% else %}
+                <a
+                  class="nav-link dropdown-toggle"
+                  href="#"
+                  id="authDropdown"
+                  role="button"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  <span class="mr-2 d-none d-lg-inline text-gray-600 small"
+                    ><i class="far fa-user"></i></span
+                  >
+                </a>
+                <!-- Dropdown - User Information -->
+                <div
+                  class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                  aria-labelledby="userDropdown"
+                >
+                  <a class="dropdown-item" href="{% url 'accounts:register' %}">
+                    <i class="fas fa-user-plus fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Zarejestruj się
+                  </a>
+                  <a class="dropdown-item" href="{% url 'accounts:login' %}">
+                    <i class="fas fa-sign-in-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Zaloguj się
+                  </a>
+                </div>
+                {% endif %}
               </li>
             </ul>
           </nav>
@@ -448,19 +518,8 @@
     >
       <div class="modal-dialog" role="document">
         <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-            <button
-              class="close"
-              type="button"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">×</span>
-            </button>
-          </div>
           <div class="modal-body">
-            Select "Logout" below if you are ready to end your current session.
+            Wybierz "Wyloguj się" jeśli chcesz zakończyć bieżącą sesje.
           </div>
           <div class="modal-footer">
             <button
@@ -468,9 +527,9 @@
               type="button"
               data-dismiss="modal"
             >
-              Cancel
+              Anuluj
             </button>
-            <a class="btn btn-primary" href="login.html">Logout</a>
+            <a class="btn btn-primary" href="{% url 'accounts:logout' %}">Wyloguj się</a>
           </div>
         </div>
       </div>

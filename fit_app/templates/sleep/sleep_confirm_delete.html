@@ -7,7 +7,7 @@
         <h1>Sen {{ object.date | date:"d/m/y" }}</h1>
         
         <form method="post">{% csrf_token %}
-          <p>Na pewno usunąć "{{ object }}"?</p>
+          <p>Na pewno usunąć?</p>
           {{ form }}
           <input type="submit" value="Potwierdź">
         </form>
