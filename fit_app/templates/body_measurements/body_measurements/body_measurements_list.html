@@ -2,8 +2,8 @@
 
 {% block content %}
 <!-- Upload File Section Form-->
-    <div class=" row justify-content-center">
-      <div class="col-lg-8 col-xl-10">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 col-xl-7">
         {% if messages %}
           <ul class="messages">
           {% for message in messages %}
@@ -11,14 +11,16 @@
           {% endfor %}
           </ul>
         {% endif %}
-        <h1 class="font-weight-bold mb-3">Sen</h1>
-        <ul class="p-0">
+        <h1>Pomiary ciała</h1>
+        <ul>
           {% for object in object_list %}
-            <a href="{% url 'sleep:sleep_detail' object.pk %}">
-            <h3>{{ object.date | date:"d/m/y" }} - <span class="text-secondary">{{ object.duration_time|floatformat }} godzin snu</span></h3>
-            </a>
+            <li>
+                <a href="{% url 'body_measurements:body_measurements_detail' object.pk %}">
+                  Waga: {{ object.weight  }} kg, Wzrost: {{ object.height }} cm - {{ object.date|date:"d/m/y" }}
+                </a>
+            </li>
           {% empty %}
-            <li>Nie dodano jeszcze żadnego snu.</li>
+            <li>Nie dodano jeszcze żadnych pomiarów ciała.</li>
           {% endfor %}
         </ul>
         

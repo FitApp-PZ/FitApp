@@ -1,6 +1,7 @@
 from calendar import weekday
-from datetime import date, timedelta
+from datetime import date, timedelta, datetime
 from re import template
+from tkinter.messagebox import NO
 from urllib import request
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -34,7 +35,7 @@ class ActivityDetailView(DeleteView):
 
     def get_queryset(self):
         user = self.request.user
-        return Activity.objects.all()
+        return Activity.objects.filter(user=user)
 
 class ActivityCreateView(CreateView):
     model = Activity
@@ -84,11 +85,22 @@ def ActivityChartView(request):
 
     all_activities = Activity.objects.filter(user=request.user).order_by('date')
 
-    type_list = [activity_type['type'] for activity_type in Activity.objects.values('type')]
+    type_list = [activity_type['type'] for activity_type in Activity.objects.filter(user=request.user).values('type')]
 
     print(type_list)
 
-    date_list = [activity_date['date'] for activity_date in Activity.objects.order_by('date').values('date').distinct()]
+    date_list = [activity_date['date'] for activity_date in Activity.objects.filter(user=request.user).values('date').order_by('date').distinct()]
+
+    today = datetime.now()
+    n_days_ago = today - timedelta(days=14)
+
+    date_last14 = []
+
+    for i in range(14, -1 ,-1):
+        n_days_ago = today - timedelta(days=i)
+        date_last14.append(n_days_ago.date())
+
+    #print("Daty",date_last14)
 
     sum_value_at_date = []
     activity_label = []
@@ -96,22 +108,25 @@ def ActivityChartView(request):
     for activity in all_activities_today:
         activity_label.append(activity.type)
 
-    for activity_date in date_list:
-        activities_tot = Activity.objects.aggregate(s=Sum('duration_time', filter=Q(date=activity_date)))['s']
-        sum_value_at_date.append(activities_tot)
+    for activity_date in date_last14:
+        activities_tot = Activity.objects.filter(user=request.user).aggregate(s=Sum('duration_time', filter=Q(date=activity_date)))['s']
+        if activities_tot is None:
+            sum_value_at_date.append(0)
+        else:
+            sum_value_at_date.append(activities_tot)
 
-    N = 14
-    date_list_view_last_14_days = date_list[-N:]
-    first_date_of_14_days = date_list_view_last_14_days[0]
-    last_date_of_14_days = date_list_view_last_14_days[-1]
+    print(sum_value_at_date)
+
+    first_date_of_14_days = date_last14[0]
+    last_date_of_14_days = date_last14[-1]
 
     context = {
         'all_activities_today': all_activities_today,
         'all_activities': all_activities,
-        'date_list_view_last_14_days': date_list_view_last_14_days,
         'first_date_of_14_days': first_date_of_14_days,
         'last_date_of_14_days': last_date_of_14_days,
         'date': date_list,
+        'date_last14': date_last14,
         'activity_label': activity_label,
         'data': sum_value_at_date
     }
@@ -186,13 +201,13 @@ def ActivityListViewAll(request):
 
     #group_rec = Activity.objects.values('date').annotate(count=Sum('duration_time')).values('date', 'count').order_by('date')
 
-    date_list = [activity_date['date'] for activity_date in Activity.objects.values('date').order_by('-date').distinct()]
+    date_list = [activity_date['date'] for activity_date in Activity.objects.filter(user=request.user).values('date').order_by('-date').distinct()]
     sum_value_at_date = []
 
     all_activities = Activity.objects.filter(user=request.user).order_by('-date')
 
     for activity_date in date_list:
-        activities_tot = Activity.objects.aggregate(s=Sum('duration_time', filter=Q(date=activity_date)))['s']
+        activities_tot = Activity.objects.filter(user=request.user).aggregate(s=Sum('duration_time', filter=Q(date=activity_date)))['s']
         sum_value_at_date.append(activities_tot)
 
     zipped_data = zip(date_list, sum_value_at_date)

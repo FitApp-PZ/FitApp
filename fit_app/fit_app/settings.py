@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'activities',
     'accounts',
+    'body_measurments',
     'calculators',
     'sleep',
     'website',

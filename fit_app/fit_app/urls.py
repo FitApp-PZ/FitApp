@@ -9,4 +9,5 @@ urlpatterns = [
     path('hydration/', include('hydration.urls')),
     path('activities/', include('activities.urls')),
     path('sleep/', include('sleep.urls')),
+    path('body_measurements/', include('body_measurments.urls')),
 ]

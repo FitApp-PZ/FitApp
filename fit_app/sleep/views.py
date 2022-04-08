@@ -105,17 +105,48 @@ def SleepChartView(request):
 
     date_list = [sleep_date['date'] for sleep_date in Sleep.objects.order_by('date').values('date').distinct()]
 
+    today = datetime.now()    
+    print(today.date())
+    n_days_ago = today - timedelta(days=14)
 
-    N = 14
-    date_list_view_last_14_days = date_list[-N:]
-    first_date_of_14_days = date_list_view_last_14_days[0]
-    last_date_of_14_days = date_list_view_last_14_days[-1]
+    date_last14 = []
+
+    for i in range(14, -1 ,-1):
+        n_days_ago = today - timedelta(days=i)
+        date_last14.append(n_days_ago.date())
+
+    sum_value_at_date = []
+    
+
+    for sleep_date in date_last14:
+        activities_tot = Sleep.objects.filter(user=request.user).aggregate(s=Sum('duration_time', filter=Q(date=sleep_date)))['s']
+        if activities_tot is None:
+            sum_value_at_date.append(0)
+        else:
+            sum_value_at_date.append(activities_tot)
+
+    sum = 0
+    items = 0
+    for item in sum_value_at_date:
+        if item != 0:
+            sum += item
+            items += 1
+
+    average = sum/items
+    print(average)
+
+    print(sum_value_at_date)
+
+    first_date_of_14_days = date_last14[0]
+    last_date_of_14_days = date_last14[-1]
 
     context = {
         'all_sleep': all_sleep,
-        'date_list_view_last_14_days': date_list_view_last_14_days,
+        'date_last14': date_last14,
+        'data': sum_value_at_date,
         'first_date_of_14_days': first_date_of_14_days,
-        'last_date_of_14_days': last_date_of_14_days
+        'last_date_of_14_days': last_date_of_14_days,
+        'sleep_avg': average
     }
 
     return render(request, 'sleep/sleep_chart.html', context=context)
