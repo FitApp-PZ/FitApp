@@ -2,13 +2,19 @@
 {% load static %}
 
 {% block content %}
-<h1 class="mb-5" style="text-align: center;">Wykres Aktywności Fizycznej z ostatnich 14 dni ({{ first_date_of_14_days | date:"d/m" }} - {{ last_date_of_14_days | date:"d/m" }})</h1>
+<h1 class="mb-5" style="text-align: center;">Wykres pomiarów ciała</h1>
 <!-- Visuals -->
 <div class="row">
   <div id="visuals-container" class="col-lg-8 mx-auto">
     <div class="row">
-      <div class="col-12 col-md-6">
-        <select class="form-control" id="chart2-summary-type">
+      <div class="col-6 col-md-6">
+        <select class="form-control" id="">
+          <option value="mon1">Pomiary ciała</option>
+          <option value="mon3">Obwody ciała</option>
+        </select>
+      </div>
+      <div class="col-6 col-md-6">
+        <select class="form-control" id="chart-time-type">
           <option value="mon1">1 miesiąc</option>
           <option value="mon3">3 miesiące</option>
           <option value="mon6">6 miesięcy</option>
@@ -19,7 +25,7 @@
     </div>
   </div>
   <div id="visuals-container" class="col-lg-10 mx-auto">
-    <canvas class="mb-3" width="800" height="400" id="myChart"></canvas>
+    <canvas class="mb-3 mt-5" width="800" height="400" id="myChart"></canvas>
   </div>
 </div>
 {% endblock %}
@@ -30,24 +36,30 @@
 
 <script>
 $(document).ready(function() {
+  
 
   let loadChart = function(summary_type) {
+    // ?get_what=income&summary_type=year_overview
     $.get(`/body_measurements/body_measurements_get_chart?summary_type=${summary_type}`, function (res) {
-      console.log(res.data)
+      console.log(res.goal)
         let canvas = document.getElementById('myChart');
         const config = {
             type: 'line',
             data: {
                 labels: res.label,
                 datasets: [
-                    // {
-                    //     // type: 'scatter',
-                    //     label: 'Cel',
-                    //     data: res.data_balance_check,
-                    //     borderWidth: 2,
-                    //     backgroundColor: 'rgba(28, 200, 138, 0.1)',
-                    //     borderColor: 'rgba(28, 200, 138, 1)',
-                    // },
+                    {
+                        // type: 'scatter',
+                        label: 'Cel',
+                        data: res.goal,
+                        // borderWidth: 2,
+                        fill: false,
+                        showLine: true,
+                        pointRadius: 0,
+                        pointHoverRadius: 3,
+                        backgroundColor: 'rgba(28, 200, 138, 0.1)',
+                        borderColor: 'rgba(28, 200, 138, 1)',
+                    },
                     {
                         label: 'Waga',
                         data: res.data,
@@ -56,7 +68,8 @@ $(document).ready(function() {
                         pointRadius: 3,
                         pointHoverRadius: 3,
                         backgroundColor: "rgb(78, 115, 223)",
-                        borderColor: "rgb(78, 115, 223)"
+                        borderColor: "rgb(78, 115, 223)",
+                        spanGaps: true
                     },
                 ]
             },
@@ -68,8 +81,8 @@ $(document).ready(function() {
               yAxes: [{
                 display: true,
                 ticks: {
-                  suggestedMin: 1,
-                  suggestedMax: 12,
+                  suggestedMin: 45,
+                  suggestedMax: 100,
                   stepSize: 1
                 }
               }]
@@ -81,7 +94,7 @@ $(document).ready(function() {
 
             }
           }
-          }
+          },
           },
           
         };
@@ -92,8 +105,8 @@ $(document).ready(function() {
   
 
   loadChart('mon1')
-  $('#chart2-summary-type').on('change', function() {
-      let summary_type = $('#chart2-summary-type').val()
+  $('#chart-time-type').on('change', function() {
+      let summary_type = $('#chart-time-type').val()
       loadChart(summary_type)
     })
   

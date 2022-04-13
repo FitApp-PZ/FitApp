@@ -74,7 +74,7 @@
 
 
         <!-- Nav Item - Utilities Collapse Menu -->
-        <li class="nav-item">
+        <li class="nav-item{% if app_name == 'body_measurements' %} active{% endif %}">
           <a
             class="nav-link collapsed"
             href="#"
@@ -88,16 +88,24 @@
           </a>
           <div
             id="collapseUtilities"
-            class="collapse"
+            class="collapse{% if app_name == 'body_measurements' %} show{% endif %}"
             aria-labelledby="headingUtilities"
             data-parent="#accordionSidebar"
           >
             <div class="bg-white py-2 collapse-inner rounded">
-              <a class="collapse-item" href="utilities-color.html">Dodaj pomiary</a>
-              <a class="collapse-item" href="utilities-color.html">Ustaw cel</a>
+              {% url 'body_measurements:body_measurements_create' as body_measurements_create %}
+              {% url 'body_measurements:body_circuits_create' as body_circuits_create %}
+              {% url 'body_measurements:body_measurements_list' as body_measurements_list %}
+              {% url 'body_measurements:body_measurements_chart' as body_measurements_chart %}
+              {% url 'body_measurements:goal_create' as goal_create %}
+              {% url 'sleep:sleep_chart' as sleep_chart %}
+              {% url 'sleep:all_sleep_list' as all_sleep_list %}
+              <a class="collapse-item{% if page_path == body_measurements_create %} active{% endif %}" href="{{ body_measurements_create }}">Dodaj pomiary</a>
+              <a class="collapse-item{% if page_path == body_circuits_create %} active{% endif %}" href="{{ body_circuits_create }}">Dodaj obwody</a>
+              <a class="collapse-item" href="{{ goal_create }}">Ustaw cel</a>
               <h6 class="collapse-header">Podsumowanie:</h6>
-              <a class="collapse-item" href="utilities-border.html">Lista</a>
-              <a class="collapse-item" href="utilities-border.html">Wykres</a>
+              <a class="collapse-item{% if page_path == body_measurements_list %} active{% endif %}" href="{{ body_measurements_list }}">Lista</a>
+              <a class="collapse-item{% if page_path == body_measurements_chart %} active{% endif %}" href="{{ body_measurements_chart }}">Wykres</a>
               <a class="collapse-item" href="utilities-border.html">Statystyki</a>
             </div>
           </div>

@@ -11,14 +11,25 @@
           {% endfor %}
           </ul>
         {% endif %}
-        <h1>{{ object.get_type_display }} {{ object.date | date:"d/m/y" }}</h1>
+        <h1>{{ detail_what }} {{ object.date | date:"d/m/y" }}</h1>
         <ul>
+          {% if detail_what == 'Pomiary ciała' %}
             <li>Data: {{ object.date|date:"d/m/y" }}</li>
             <li>Waga: {{ object.weight|floatformat }} kg</li>
             <li>Wzrost: {{ object.height|floatformat }} cm</li>
+          {% else %}
+          <li>Data: {{ object.date|date:"d/m/y" }}</li>
+          <li>Klatka piersiowa: {{ object.chest|floatformat }} kg</li>
+          <li>Bicpes: {{ object.biceps|floatformat }} cm</li>
+          {% endif %}
         </ul>
+          {% if detail_what == 'Pomiary ciała' %}
           <a href="{% url 'body_measurements:body_measurements_delete' object.pk %}" class="btn btn-dark">Usuń</a>
           <a href="{% url 'body_measurements:body_measurements_update' object.pk %}" class="btn btn-dark">Edytuj</a>
+          {% else %}
+          <a href="{% url 'body_measurements:body_circuits_delete' object.pk %}" class="btn btn-dark">Usuń</a>
+          <a href="{% url 'body_measurements:body_circuits_update' object.pk %}" class="btn btn-dark">Edytuj</a>
+          {% endif %}
         
       </div>
     </div>
