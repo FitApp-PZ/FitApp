@@ -5,6 +5,7 @@ from datetime import date
 from activities.models import Activity
 from hydration.models import Water
 from sleep.models import Sleep
+from body_measurments.models import BodyMeasurements
 
 # Create your views here.
 def index(request):
@@ -33,6 +34,8 @@ def samples(request):
     water_aim = 2000
     width_of_water_bar = (sum_of_water_today / water_aim) * 100
     width_of_water_bar = 100 if width_of_water_bar > 100 else width_of_water_bar
+
+    current_weight = BodyMeasurements.objects.filter(user = request.user).values('weight').order_by('-date').first()['weight']
     
 
 
@@ -43,6 +46,7 @@ def samples(request):
         'width_of_sleep_bar': width_of_sleep_bar,
         'width_of_activities_bar': width_of_activities_bar,
         'width_of_water_bar': width_of_water_bar,
+        'current_weight': current_weight
     }
     return render(request, 'website/samples.html', context=context)
 
