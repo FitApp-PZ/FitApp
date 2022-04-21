@@ -1,5 +1,5 @@
 from calendar import weekday
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta
 from urllib import request
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -105,30 +105,91 @@ def WaterChartView(request):
 
 
 def WaterHistoryView(request):
-    all_water = Water.objects.all()
+    # all_water = Water.objects.all()
 
-    date_list = [water_date['date'] for water_date in Water.objects.values('date').distinct()]
+    # date_list = [water_date['date'] for water_date in Water.objects.values('date').distinct()]
 
-    date_list_view = []
+    # today = datetime.now()
+    # n_days_ago = today - timedelta(days=14)
+
+    # date_last14 = []
+
+    # for i in range(14, -1 ,-1):
+    #     n_days_ago = today - timedelta(days=i)
+    #     date_last14.append(n_days_ago.date())
+        
+
+    # date_list_view = []
+    # sum_value_at_date = []
+    # for water_date in date_last14:
+    #     wate_tot = Water.objects.aggregate(s=Sum('real_value', filter=Q(date=water_date)))['s']
+    #     date_list_view.append(water_date)
+    #     sum_value_at_date.append(wate_tot)
+
+    # N = 14
+    # date_list_view_last_14_days = date_list_view[-N:]
+    # first_date_of_14_days = date_list_view_last_14_days[0]
+    # last_date_of_14_days = date_list_view_last_14_days[-1]
+
+    # context = {
+    #     'all_water': all_water,
+    #     'date_list_view': date_list_view,
+    #     'date_list_view_last_14_days': date_list_view_last_14_days,
+    #     'first_date_of_14_days': first_date_of_14_days,
+    #     'last_date_of_14_days': last_date_of_14_days,
+    #     'date': date_list,
+    #     'data': sum_value_at_date
+    # }
+
+    all_water_today = Water.objects.filter(date=date.today(), user=request.user)
+
+    all_water = Water.objects.filter(user=request.user).order_by('date')
+
+    # type_list = [activity_type['type'] for activity_type in Water.objects.filter(user=request.user).values('type')]
+
+    # print(type_list)
+
+    date_list = [activity_date['date'] for activity_date in Water.objects.filter(user=request.user).values('date').distinct()]
+
+    today = datetime.now()
+    n_days_ago = today - timedelta(days=14)
+
+    date_last14 = []
+
+    for i in range(14, -1 ,-1):
+        n_days_ago = today - timedelta(days=i)
+        date_last14.append(n_days_ago.date())
+
+    #print("Daty",date_last14)
+
     sum_value_at_date = []
-    for water_date in date_list:
-        wate_tot = Water.objects.aggregate(s=Sum('real_value', filter=Q(date=water_date)))['s']
-        date_list_view.append(water_date)
-        sum_value_at_date.append(wate_tot)
+    activity_label = []
 
-    N = 14
-    date_list_view_last_14_days = date_list_view[-N:]
-    first_date_of_14_days = date_list_view_last_14_days[0]
-    last_date_of_14_days = date_list_view_last_14_days[-1]
+    # for activity in all_water_today:
+    #     activity_label.append(activity.type)
+
+    for activity_date in date_last14:
+        activities_tot = Water.objects.filter(user=request.user).aggregate(s=Sum('real_value', filter=Q(date=activity_date)))['s']
+        if activities_tot is None:
+            sum_value_at_date.append(0)
+        else:
+            sum_value_at_date.append(activities_tot)
+
+    print(sum_value_at_date)
+
+    first_date_of_14_days = date_last14[0]
+    last_date_of_14_days = date_last14[-1]
 
     context = {
-        'all_water': all_water,
-        'date_list_view': date_list_view,
-        'date_list_view_last_14_days': date_list_view_last_14_days,
+        'all_activities_today': all_water_today,
+        'all_activities': all_water,
         'first_date_of_14_days': first_date_of_14_days,
         'last_date_of_14_days': last_date_of_14_days,
         'date': date_list,
+        'date_last14': date_last14,
+        'activity_label': activity_label,
         'data': sum_value_at_date
     }
+
 
     return render(request, 'hydration/hydration_history.html', context=context)

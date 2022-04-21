@@ -1,5 +1,12 @@
-/env
 /.idea
 /__pycache__
 /Fit-app/__pycache__
 db.sqlite3
+
+# dotenv
+.env
+
+# virtualenv
+.env
+env/
+ENV/

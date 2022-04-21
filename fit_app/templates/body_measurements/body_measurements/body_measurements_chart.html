@@ -2,18 +2,13 @@
 {% load static %}
 
 {% block content %}
-<h1 class="mb-5" style="text-align: center;">Wykres pomiarów ciała</h1>
+<h1 class="mb-2" style="text-align: center;">Wykres pomiarów ciała</h1>
+<div class="h6 mb-5 text-gray-800 text-center">Twoj obecny cel wynosi: <span id="goal"></span> kg</div>
 <!-- Visuals -->
 <div class="row">
   <div id="visuals-container" class="col-lg-8 mx-auto">
     <div class="row">
-      <div class="col-6 col-md-6">
-        <select class="form-control" id="">
-          <option value="mon1">Pomiary ciała</option>
-          <option value="mon3">Obwody ciała</option>
-        </select>
-      </div>
-      <div class="col-6 col-md-6">
+      <div class="col-10 col-md-10">
         <select class="form-control" id="chart-time-type">
           <option value="mon1">1 miesiąc</option>
           <option value="mon3">3 miesiące</option>
@@ -27,6 +22,7 @@
   <div id="visuals-container" class="col-lg-10 mx-auto">
     <canvas class="mb-3 mt-5" width="800" height="400" id="myChart"></canvas>
   </div>
+  
 </div>
 {% endblock %}
 
@@ -37,11 +33,13 @@
 <script>
 $(document).ready(function() {
   
+  let goalContainer = document.getElementById("goal");
 
   let loadChart = function(summary_type) {
     // ?get_what=income&summary_type=year_overview
     $.get(`/body_measurements/body_measurements_get_chart?summary_type=${summary_type}`, function (res) {
       console.log(res.goal)
+      goalContainer.innerHTML = res.goal[0];
         let canvas = document.getElementById('myChart');
         const config = {
             type: 'line',
@@ -50,7 +48,7 @@ $(document).ready(function() {
                 datasets: [
                     {
                         // type: 'scatter',
-                        label: 'Cel',
+                        label: 'Cel' ,
                         data: res.goal,
                         // borderWidth: 2,
                         fill: false,
@@ -111,6 +109,14 @@ $(document).ready(function() {
     })
   
   })
+
+  fetch(url)
+  .then(function (response) {
+    // The JSON data will arrive here
+  })
+  .catch(function (err) {
+    // If an error occured, you will catch it here
+  });
 
 //   let myChart = document.getElementById('myChart').getContext('2d');
 

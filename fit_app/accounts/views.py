@@ -20,7 +20,7 @@ def register(request):
 def login_view(request):
     if request.user.is_authenticated:
         messages.info(request, mark_safe(f'Jesteś już zalagowany/a jako <b>{request.user.username}</b>'))
-        return redirect('website:samples')
+        return redirect('website:dashboard')
 
     username = ""
     if request.method == 'POST':
@@ -33,7 +33,7 @@ def login_view(request):
             #messages.success(request, f'User {user.username} logged is succesfully')
             if not remember_me:
                 request.session.set_expiry(0)
-            return redirect('website:samples')
+            return redirect('website:dashboard')
         else:
             messages.warning(request, 'Could not authentivte, zle dane')
     
