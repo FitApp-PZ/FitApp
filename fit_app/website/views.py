@@ -38,7 +38,11 @@ def dashboard(request):
     width_of_water_bar = (sum_of_water_today / water_aim) * 100
     width_of_water_bar = 100 if width_of_water_bar > 100 else width_of_water_bar
 
-    current_weight = BodyMeasurements.objects.filter(user = request.user).values('weight').order_by('-date').first()['weight']
+    current_weight = BodyMeasurements.objects.filter(user = request.user).values('weight').order_by('-date').first()
+    if current_weight is None:
+        current_weight = 'Nie dodano żadnej wagi'
+    else:
+        current_weight = current_weight['weight']
     
 
 

@@ -132,7 +132,10 @@ def SleepChartView(request):
             sum += item
             items += 1
 
-    average = sum/items
+    if items == 0:
+        average = 0
+    else:
+        average = sum/items
     print(average)
 
     print(sum_value_at_date)
