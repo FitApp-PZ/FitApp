@@ -11,7 +11,10 @@ from body_measurments.models import BodyMeasurements
 def index(request):
     return render(request, 'website/index.html')
 
-def samples(request):
+def info(request):
+    return render(request, 'website/info.html')
+
+def dashboard(request):
     sum_of_water_today = Water.objects.filter(user=request.user, date=date.today()).aggregate(s=Sum('real_value'))['s']
     sum_of_water_today = 0 if sum_of_water_today is None else sum_of_water_today
 
@@ -48,7 +51,7 @@ def samples(request):
         'width_of_water_bar': width_of_water_bar,
         'current_weight': current_weight
     }
-    return render(request, 'website/samples.html', context=context)
+    return render(request, 'website/dashboard.html', context=context)
 
 def BMI_calculator(request):
     return render(request, 'website/BMI_calculator.html')
