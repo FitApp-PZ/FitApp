@@ -1,13 +1,41 @@
-{% extends 'base.html' %} 
-{% load static %} 
-
+{% extends 'base.html' %}
+{% load static %}
 {% block content %}
+
 <!-- Page Heading -->
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">XDDDDDDDDDDDD!</h1>
+  <div class="row">
+    <!-- Content Column -->
+    <div class="col-lg-12 mb-4">
+      <!-- Illustrations -->
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">O aplikacji</h6>
+        </div>
+        <div class="card-body">
+          <p>
+            Add some quality, svg illustrations to your project courtesy of, a
+            constantly updated collection of beautiful svg images that you can
+            use completely free and without attribution! Lorem ipsum dolor sit
+            amet consectetur, adipisicing elit. Natus sunt aspernatur excepturi
+            repellat consequatur dolore quod, cupiditate, aliquam odio ullam
+            eligendi aut doloribus harum eveniet minima, commodi officia!
+            Ratione cum voluptas eos laborum nihil amet, rerum veniam nulla unde
+            iure eius explicabo vitae similique voluptates recusandae veritatis
+            doloremque officia magni hic quae non? Delectus voluptates voluptate
+            ex ullam laboriosam consequuntur impedit fugiat deserunt velit hic
+            atque, nihil quo, qui officiis non reiciendis. Tempore nulla, velit
+            veniam, in modi eum odit, officia hic laudantium iusto quas sequi
+            nam magni minus accusantium ullam repellendus consequuntur corrupti
+            reprehenderit libero! Reprehenderit eos quos animi.
+          </p>
+          <a href="{% url 'website:info' %}">Strona o autorach &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 {% endblock %} 
-
-{% block hidden_content %}
+{% block hidden_content %} 
 {% endblock %}
