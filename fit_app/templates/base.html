@@ -1,7 +1,7 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -11,6 +11,11 @@
     />
     <meta name="description" content="" />
     <meta name="author" content="" />
+
+    <!-- favicon-16x16.png - The classic favicon, displayed in the tabs. -->
+    <link rel="icon" type="image/png" href="{% static 'img/icon16.png' %}" sizes="16x16">
+    <!-- favicon-32x32.png - For Safari on Mac OS. -->
+    <link rel="icon" type="image/png" href="{% static 'img/icon32.png' %}" sizes="32x32">
 
     <title>Fit App</title>
 
@@ -54,8 +59,8 @@
           class="sidebar-brand d-flex align-items-center justify-content-center"
           href="{% url 'website:index' %}"
         >
-        <img src="https://png.pngitem.com/pimgs/s/160-1601441_fit-mom-to-be-pregnancy-workout-plan-workout.png" class="img-responsive img-rounded"
-          style="max-height: 50px; max-width: 50px;">
+        <img src="{% static 'img/icon.png' %}" class="img-responsive img-rounded"
+          >
           <div class="sidebar-brand-text mx-3">Fit App</div>
         </a>
 
