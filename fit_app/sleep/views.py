@@ -44,7 +44,7 @@ class SleepCreateView(CreateView):
     # extra_context = {'date_list': date_list}
     
     def form_valid(self, form):
-        date_list = [sleep_date['date'] for sleep_date in Sleep.objects.values('date')]
+        date_list = [sleep_date['date'] for sleep_date in Sleep.objects.filter(user=self.request.user).values('date')]
         print(date_list)
 
         date = form.cleaned_data.get('date')
@@ -103,7 +103,7 @@ class SleepDeleteView(DeleteView):
 def SleepChartView(request):
     all_sleep = Sleep.objects.filter(user=request.user).order_by('date')
 
-    date_list = [sleep_date['date'] for sleep_date in Sleep.objects.order_by('date').values('date').distinct()]
+    date_list = [sleep_date['date'] for sleep_date in Sleep.objects.filter(user=request.user).order_by('date').values('date').distinct()]
 
     today = datetime.now()    
     print(today.date())

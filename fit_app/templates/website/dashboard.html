@@ -252,7 +252,11 @@
                       <div
                         class="text-md font-weight-bold text-gray-200 text-uppercase mb-1"
                       >
+                        {% if width_of_water_bar == 100.0 %}
+                        <s>Wypić 2 litry wody.</s>
+                        {% else %}
                         Wypić 2 litry wody.
+                        {% endif %}
                       </div>
                     </div>
                   </div>
@@ -267,7 +271,11 @@
                       <div
                         class="text-md font-weight-bold text-gray-200 text-uppercase mb-1"
                       >
+                        {% if width_of_activities_bar == 100.0 %}
+                        <s>Spędzić aktywnie 60 minut w ciągu dnia.</s>
+                        {% else %}
                         Spędzić aktywnie 60 minut w ciągu dnia.
+                        {% endif %}
                       </div>
                     </div>
                   </div>
@@ -282,7 +290,11 @@
                       <div
                         class="text-md font-weight-bold text-gray-200 text-uppercase mb-1"
                       >
+                        {% if width_of_sleep_bar == 100.0 %}
+                        <s>Spać 8 godzin.</s>
+                        {% else %}
                         Spać 8 godzin.
+                        {% endif %}
                       </div>
                     </div>
                   </div>
