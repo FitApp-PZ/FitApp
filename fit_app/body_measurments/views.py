@@ -89,7 +89,7 @@ def BodyMeasurementsGetChart(request):
 
     last_goal = Goals.objects.filter(user=request.user).order_by('-created_at_date').values('weight_goal').first()['weight_goal']
 
-    date_list = [body_measurements_date['date'] for body_measurements_date in BodyMeasurements.objects.order_by('date').values('date').distinct()]
+    date_list = [body_measurements_date['date'] for body_measurements_date in BodyMeasurements.objects.filter(user=request.user).order_by('date').values('date').distinct()]
 
     if summary_type == 'mon1':
         N = 30

@@ -51,7 +51,7 @@
       <!-- Sidebar -->
       {% if user %}
       <ul
-        class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
+        class="navbar-nav bg-gradient-custom sidebar sidebar-dark accordion"
         id="accordionSidebar"
       >
         <!-- Sidebar - Brand -->
@@ -112,7 +112,6 @@
               <h6 class="collapse-header">Podsumowanie:</h6>
               <a class="collapse-item{% if page_path == body_measurements_list %} active{% endif %}" href="{{ body_measurements_list }}">Lista</a>
               <a class="collapse-item{% if page_path == body_measurements_chart %} active{% endif %}" href="{{ body_measurements_chart }}">Wykres</a>
-              <a class="collapse-item" href="utilities-border.html">Statystyki</a>
             </div>
           </div>
         </li>
@@ -256,7 +255,7 @@
       </ul>
       {% else %}
       <ul
-        class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
+        class="navbar-nav bg-gradient-custom sidebar sidebar-dark accordion"
         id="accordionSidebar"
       >
         <!-- Sidebar - Brand -->
@@ -264,7 +263,7 @@
           class="sidebar-brand d-flex align-items-center justify-content-center"
           href="{% url 'website:index' %}"
         >
-        <img src="https://png.pngitem.com/pimgs/s/160-1601441_fit-mom-to-be-pregnancy-workout-plan-workout.png" class="img-responsive img-rounded"
+        <img src="{% static 'img/icon.png' %}" class="img-responsive img-rounded"
           style="max-height: 50px; max-width: 50px;">
           <div class="sidebar-brand-text mx-3">Fit App</div>
         </a>
@@ -313,6 +312,7 @@
       <div id="content-wrapper" class="d-flex flex-column">
         <!-- Main Content -->
         <div id="content">
+
           <!-- Topbar -->
           <nav
             class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow"
@@ -324,6 +324,12 @@
             >
               <i class="fa fa-bars"></i>
             </button>
+
+            <div class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+              <div>
+                <div>Dzisiejsza data: {{ today|date:'d / m / y' }}</div> 
+              </div>
+            </div>
 
 
             <!-- Topbar Navbar -->
@@ -391,11 +397,6 @@
                   class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                   aria-labelledby="userDropdown"
                 >
-                  <a class="dropdown-item" href="#">
-                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Profil
-                  </a>
-                  <div class="dropdown-divider"></div>
                   <a
                     class="dropdown-item"
                     href="#"
@@ -419,7 +420,7 @@
                   aria-expanded="false"
                 >
                   <span class="mr-2 d-none d-lg-inline text-gray-600 small"
-                    ><i class="far fa-user"></i></span
+                    >Zaloguj / Zarejestruj <i class="far fa-user"></i></span
                   >
                 </a>
                 <!-- Dropdown - User Information -->

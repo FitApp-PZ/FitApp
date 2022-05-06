@@ -86,13 +86,13 @@ class WaterDeleteView(DeleteView):
         return reverse_lazy('hydration:water_list')
 
 def WaterChartView(request):
-    all_water_today = Water.objects.filter(date=date.today())
+    all_water_today = Water.objects.filter(date=date.today(), user=request.user)
 
-    date_list = [water_date['date'] for water_date in Water.objects.values('date').distinct()]
+    date_list = [water_date['date'] for water_date in Water.objects.filter(user=request.user).values('date').distinct()]
 
     sum_value_at_date = []
     for water_date in date_list:
-        wate_tot = Water.objects.aggregate(s=Sum('real_value', filter=Q(date=water_date)))['s']
+        wate_tot = Water.objects.filter(user=request.user).aggregate(s=Sum('real_value', filter=Q(date=water_date)))['s']
         sum_value_at_date.append(wate_tot)
 
     context = {
